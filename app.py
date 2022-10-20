@@ -28,7 +28,6 @@ def show_data(da_ta, Show = "Show Dataset"):
 show_data(dataf)
 
 
-
 # split the dataset by job titel
 def sub_data(data_s):
     data_sub = dataf[dataf["Job Title"]== data_s]
@@ -40,18 +39,14 @@ def sub_data(data_s):
             return data_sub
 
 
-
-
 ### pie chart
 def pie_chart(data_p):
-    st.write("average pay per years of experience",(
+    st.write("average pay",(
     alt.Chart(data_p).mark_arc().encode(
         theta=alt.Theta(field="Average Pay", type="quantitative"),
         color=alt.Color(field="Years of Experience", type="nominal"),
     ) ))
     return (pie_chart )
-
-
 
 
 # bar chart
@@ -66,17 +61,28 @@ def bar_chart(data_ub):
 
 
 # create a function to not repeat some code over and over again
+
+def show_df(df):
+    
+    if st.button("click here to show data"):
+       st.write(df)
+    else:
+        st.write("-----> the data will be shown here.")
+    return show_df
+
+
 def call_function(dat):
-    st.write(dat)
+    show_df(dat)
     pie_chart(dat)
     bar_chart(dat)
     return call_function
+
 
 # dataset subesets
 data_analyst = sub_data("Data Analyst")
 data_scientist = sub_data("Data Scientist")
 data_engineer = sub_data("Data Engineer")
-
+header = "Average pay VS Years of Experience."
 
 with st.sidebar:
  genre = st.radio( "Choose a job titel",
@@ -87,14 +93,17 @@ if genre == "Option:":
 
 
 elif genre == "Data Scientist":
-    st.subheader("Data Science: Average pay VS Years of Experience.")
+    st.header(header)
+    st.subheader("Data Science:")
     call_function(data_scientist)
 
 elif  genre == "Data Engineer":
-    st.subheader("Data Engineer: Average pay VS Years of Experience.")  
+    st.header(header)
+    st.subheader("Data Engineer:")  
     call_function(data_engineer)
    
 
 elif genre == "Data Analyst":
-    st.subheader("Data Analyst: Average pay VS Years of Experience.")
+    st.header(header)
+    st.subheader("Data Analyst:")
     call_function(data_analyst)
